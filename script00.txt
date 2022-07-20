@@ -1,0 +1,26 @@
+# IAM default roles
+aws emr create-default-roles
+
+# Create the cluster
+aws emr create-cluster \
+    --name "Air Traffic Analysis" \
+    --release-label air-prc-1.00.0 \
+    --applications Name=Spark \
+    --ec2-attributes KeyName=<myEMRKeyPairName> \
+    --instance-type t3.micro \
+    --instance-count 3 \
+    --use-default-roles
+
+# Chexk the cluster (<myClusterId> showed in previous command output)
+aws emr describe-cluster --cluster-id <myClusterId>
+
+# make sure <myClusterId> is waiting for a Job
+aws emr list-clusters --cluster-states WAITING
+
+#
+aws emr add-steps \
+    --cluster-id <myClusterId> \
+    --steps Type=Spark,Name="<My Spark Application>",ActionOnFailure=CONTINUE,\
+    Args=[<s3://DOC-EXAMPLE-BUCKET/health_violations.py>,\
+          --data_source,<s3://DOC-EXAMPLE-BUCKET/food_establishment_data.csv>,\
+          --output_uri,<s3://DOC-EXAMPLE-BUCKET/MyOutputFolder>]							
