@@ -1,0 +1,73 @@
+
+# alias=aorsiniadmin id=626108554526
+# console=https://aorsiniadmin.signin.aws.amazon.com/console
+
+
+# Create volume from snapshot
+
+aws ec2 create-volume \
+    --volume-type sc1 \
+    --snapshot-id snap-e1608d88 \
+    --availability-zone us-east-1a
+
+
+    1) Extract only the information (selecting appropriate database and csv files) that is needed for the queries
+    2) Ignore rows with missing data
+    3) Remove duplicates
+    4) Merge the required data (for all quarters) into a single table
+
+    1. snapshot,  contains zip file for dataset.
+    2. you need a EC2 instance (just ubuntu remote computer) to grab the data and save to your EC2 storage.
+    3. then , you need to upload data into AWS S3 which is Amazon HDFS storage.
+    4. then, you need to initialize AWS EMR (Pyspark in notebook) and make proper analysis and gives the results.
+
+# (1) Create ssh key pair
+aws ec2 create-key-pair \
+    --key-name aviationdata \
+    --key-type rsa \
+    --key-format pem \
+    --query "KeyMaterial" \
+    --output text > aviationdata.pem
+
+# (2) run instance with snapshot
+aws ec2 run-instances --image-id ami-0cff7528ff583bf9a \
+        --count 1 --instance-type t2.micro \
+        --key-name aviationdata \
+        --security-group-ids sg-08d37db83b28e0eef \
+        --subnet-id subnet-027a8b8d34cced850 \
+        --block-device-mappings "[{\"DeviceName\":\"/dev/sdf\",\"Ebs\":{\"SnapshotId\":\"snap-e1608d88\"}}]" \
+        --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=AviationData}]' 'ResourceType=volume,Tags=[{Key=Name,Value=AviationData}]'
+
+# ssh -i ~/.ssh/aviationdata.pem ec2-user@ec2-3-223-192-145.compute-1.amazonaws.com
+#
+# ~/.ssh/config
+#  Host host.mydomain.example
+#     User ec2-user
+#     IdentityFile /home/aorsini/.ssh/aviationdata.pem
+#     IdentitiesOnly yes
+#
+# ssh ec2-user@host.mydomain.example
+
+# tag instance
+# aws ec2 create-tags --resources i-5203422c --tags Key=Name,Value=AviationData
+# list instance
+aws ec2 describe-instances --filters "Name=instance-type,Values=t2.micro" --query "Reservations[].Instances[].InstanceId"
+
+# connect to instance
+ssh -i "aviationdata.pem" ec2-user@ec2-18-215-16-38.compute-1.amazonaws.com
+scp -i "aviationdata.pem" ec2-user@ec2-18-215-16-38.compute-1.amazonaws.com:/data/aviation/aviation/airline_origin_destination/2008*.zip .
+scp -i "aviationdata.pem" ec2-user@ec2-18-215-16-38.compute-1.amazonaws.com:/data/aviation/aviation/airline_ontime/2008/*.zip ./airline_ontime/2008
+
+# Create s3 bucket
+aws s3api create-bucket \
+    --bucket AviationData2263 \
+    --region us-east-1
+
+
+# terminate instance
+aws ec2 terminate-instances --instance-ids i-0bf7802ddaa5df055
+
+# delete bucket
+aws s3api delete-bucket --bucket AviationData2263 --region us-east-1
+
+ssh ec2-user@

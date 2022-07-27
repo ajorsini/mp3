@@ -1,0 +1,123 @@
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-0cff7528ff583bf9a",
+            "InstanceId": "i-0fa6697d0f57dc639",
+            "InstanceType": "t2.micro",
+            "KeyName": "aviationdata",
+            "LaunchTime": "2022-07-17T21:45:09+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-east-1a",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-172-31-11-184.ec2.internal",
+            "PrivateIpAddress": "172.31.11.184",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-027a8b8d34cced850",
+            "VpcId": "vpc-02f0c82d47e2a9808",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "426e5874-5f41-4ff0-bf75-4760644936b2",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2022-07-17T21:45:09+00:00",
+                        "AttachmentId": "eni-attach-08faf9baf0cfc4291",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching",
+                        "NetworkCardIndex": 0
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "default",
+                            "GroupId": "sg-08d37db83b28e0eef"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "02:93:b5:4e:ed:e3",
+                    "NetworkInterfaceId": "eni-04b83a0602b87a50b",
+                    "OwnerId": "626108554526",
+                    "PrivateDnsName": "ip-172-31-11-184.ec2.internal",
+                    "PrivateIpAddress": "172.31.11.184",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateDnsName": "ip-172-31-11-184.ec2.internal",
+                            "PrivateIpAddress": "172.31.11.184"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-027a8b8d34cced850",
+                    "VpcId": "vpc-02f0c82d47e2a9808",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "default",
+                    "GroupId": "sg-08d37db83b28e0eef"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "AviationData"
+                }
+            ],
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled",
+                "HttpProtocolIpv6": "disabled",
+                "InstanceMetadataTags": "disabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            },
+            "PrivateDnsNameOptions": {
+                "HostnameType": "ip-name",
+                "EnableResourceNameDnsARecord": false,
+                "EnableResourceNameDnsAAAARecord": false
+            },
+            "MaintenanceOptions": {
+                "AutoRecovery": "default"
+            }
+        }
+    ],
+    "OwnerId": "626108554526",
+    "ReservationId": "r-05dd63e397ee2be77"
+}
